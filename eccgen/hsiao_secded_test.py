@@ -123,7 +123,7 @@ class TestHsiaoSecdedCode(unittest.TestCase):
         self.assertEqual(get_r(k), expected_r)
 
     def test_hsiao_secded_k4(self):
-        _, _, H, G = CODES[4]
+        _, _, G, H = CODES[4]
         check_construction(G, H, True, True)
         H_expected = np.array(
             [
@@ -146,7 +146,7 @@ class TestHsiaoSecdedCode(unittest.TestCase):
 
     @parameterized.expand(CODES.keys())
     def test_hsiao_secded_code_construction(self, k):
-        _, _, H, G = CODES[k]
+        _, _, G, H = CODES[k]
         check_construction(
             G,
             H,
@@ -164,7 +164,7 @@ class TestHsiaoSecdedCode(unittest.TestCase):
     @parameterized.expand([4, 8, 16])
     def test_encode_decode_syndrome_exhaustive(self, k):
         """Test message encoding and syndrome decoding exhaustively for smaller codes without any errors."""
-        r, n, H, G = CODES[k]
+        r, n, G, H = CODES[k]
         for m in range(2**k):
             m = np.array([int(b) for b in format(m, f"0{k}b")])
             c = encode(m, G)
@@ -176,7 +176,7 @@ class TestHsiaoSecdedCode(unittest.TestCase):
     @parameterized.expand(CODES.keys())
     def test_encode_decode_syndrome_random(self, k):
         """Test a bunch of random messages. Note that doing it exhaustively is infeasible for large k."""
-        r, n, H, G = CODES[k]
+        r, n, G, H = CODES[k]
         np.random.seed(42)
         for _ in range(1000):
             m = np.random.randint(0, 2, k)
@@ -188,7 +188,7 @@ class TestHsiaoSecdedCode(unittest.TestCase):
 
     @parameterized.expand(CODES.keys())
     def test_encode_decode_single_error_injection(self, k):
-        _, n, H, G = CODES[k]
+        _, n, G, H = CODES[k]
         np.random.seed(42)
         # The code's characteristics are independent of the message (it's a linear code!).
         # But test on 10 random messages just to be sure.
@@ -200,7 +200,7 @@ class TestHsiaoSecdedCode(unittest.TestCase):
 
     @parameterized.expand(CODES.keys())
     def test_encode_decode_double_error_injection(self, k):
-        _, n, H, G = CODES[k]
+        _, n, G, H = CODES[k]
         np.random.seed(42)
         # The code's characteristics are independent of the message (it's a linear code!).
         # But test on 10 random messages just to be sure.
@@ -215,7 +215,7 @@ class TestHsiaoSecdedCode(unittest.TestCase):
 
     @parameterized.expand(CODES.keys())
     def test_encode_decode_triple_error_injection(self, k):
-        _, n, H, G = CODES[k]
+        _, n, G, H = CODES[k]
         np.random.seed(42)
         # The code's characteristics are independent of the message (it's a linear code!).
         # But test on 10 random messages just to be sure.
