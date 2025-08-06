@@ -17,11 +17,9 @@ load("@bazel_skylib//rules:write_file.bzl", "write_file")
 
 package(default_visibility = ["//visibility:private"])
 
-exports_files(
-    srcs = glob([
-        "hsiao_G_k*.txt",
-        "hsiao_H_k*.txt",
-    ]),
+filegroup(
+    name = "matrices",
+    srcs = glob(["**/*"]),
     visibility = ["//visibility:public"],
 )
 
