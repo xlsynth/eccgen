@@ -22,6 +22,16 @@ py_library(
     deps = ["@eccgen-pypi//numpy:pkg"],
 )
 
+py_test(
+    name = "hsiao_secded_test",
+    srcs = ["hsiao_secded_test.py"],
+    deps = [
+        ":hsiao_secded",
+        "@eccgen-pypi//numpy:pkg",
+        "@eccgen-pypi//parameterized:pkg",
+    ],
+)
+
 py_library(
     name = "matrix_parser",
     srcs = ["matrix_parser.py"],
@@ -41,24 +51,5 @@ py_test(
 py_binary(
     name = "eccgen",
     srcs = ["eccgen.py"],
-    data = [
-        "//eccgen/jinja2:br_ecc_secded_decoder.sv.jinja2",
-        "//eccgen/jinja2:br_ecc_secded_encoder.sv.jinja2",
-        "//eccgen/jinja2:secded_decoder.x.jinja2",
-        "//eccgen/jinja2:secded_encoder.x.jinja2",
-    ],
-    deps = [
-        ":hsiao_secded",
-        "@eccgen-pypi//jinja2:pkg",
-    ],
-)
-
-py_test(
-    name = "hsiao_secded_test",
-    srcs = ["hsiao_secded_test.py"],
-    deps = [
-        ":hsiao_secded",
-        "@eccgen-pypi//numpy:pkg",
-        "@eccgen-pypi//parameterized:pkg",
-    ],
+    deps = [":hsiao_secded"],
 )
