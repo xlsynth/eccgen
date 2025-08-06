@@ -22,6 +22,22 @@ py_library(
     deps = ["@eccgen-pypi//numpy:pkg"],
 )
 
+py_library(
+    name = "matrix_parser",
+    srcs = ["matrix_parser.py"],
+    deps = ["@eccgen-pypi//numpy:pkg"],
+    visibility = ["//eccgen:__subpackages__"],
+)
+
+py_test(
+    name = "matrix_parser_test",
+    srcs = ["matrix_parser_test.py"],
+    deps = [
+        ":matrix_parser",
+        "@eccgen-pypi//numpy:pkg",
+    ],
+)
+
 py_binary(
     name = "eccgen",
     srcs = ["eccgen.py"],
