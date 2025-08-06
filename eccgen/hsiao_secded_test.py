@@ -28,7 +28,6 @@ from eccgen.hsiao_secded import (
 
 # Cache code constructions to speed up tests on the same construction.
 # Key is message length (k)
-# RTL supported codes
 CODES = {
     4: hsiao_secded_code(4),
     8: hsiao_secded_code(8),
