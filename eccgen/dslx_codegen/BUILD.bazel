@@ -14,11 +14,11 @@
 
 package(default_visibility = ["//eccgen:__pkg__"])
 
-exports_files(
-    srcs = [
-        "br_ecc_secded_decoder.sv.jinja2",
-        "br_ecc_secded_encoder.sv.jinja2",
-        "secded_decoder.x.jinja2",
-        "secded_encoder.x.jinja2",
+py_binary(
+    name = "dslx_codegen",
+    srcs = ["dslx_codegen.py"],
+    deps = [
+        "//eccgen:matrix_parser",
+        "@eccgen-pypi//jinja2:pkg",
     ],
 )
