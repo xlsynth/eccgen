@@ -20,6 +20,7 @@ py_library(
     name = "hsiao_secded",
     srcs = ["hsiao_secded.py"],
     deps = ["@eccgen-pypi//numpy:pkg"],
+    visibility = ["//visibility:public"],
 )
 
 py_test(
@@ -36,7 +37,7 @@ py_library(
     name = "matrix_parser",
     srcs = ["matrix_parser.py"],
     deps = ["@eccgen-pypi//numpy:pkg"],
-    visibility = ["//eccgen:__subpackages__"],
+    visibility = ["//visibility:public"],
 )
 
 py_test(
@@ -52,4 +53,5 @@ py_binary(
     name = "eccgen",
     srcs = ["eccgen.py"],
     deps = [":hsiao_secded"],
+    visibility = ["//visibility:public"],
 )
