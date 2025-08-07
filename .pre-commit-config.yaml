@@ -30,4 +30,4 @@ repos:
     rev: 0.1.5
     hooks:
     -   id: buildifier
-        args: [--version, "v7.6.1", -mode=fix]
+        args: [--version, "v7.3.1", -mode=fix]
