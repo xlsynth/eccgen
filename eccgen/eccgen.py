@@ -59,22 +59,23 @@ def main():
     )
 
     args = parser.parse_args()
+    k = args.message_size
 
     if args.scheme == "hsiao_secded":
-        r, n, G, H = hsiao_secded_code(args.k)
+        r, n, G, H = hsiao_secded_code(k)
         check_construction(
             G,
             H,
             # Code distance check is prohibitively expensive for large k
-            check_code_distance=(args.k <= MAX_K_FOR_OPTIMAL_ALGORITHM),
+            check_code_distance=(k <= MAX_K_FOR_OPTIMAL_ALGORITHM),
             # Row balance check is omitted for non-optimal constructions
             # since they aren't guaranteed to satisfy the property.
-            check_row_balance=(args.k <= MAX_K_FOR_OPTIMAL_ALGORITHM),
+            check_row_balance=(k <= MAX_K_FOR_OPTIMAL_ALGORITHM),
         )
 
         file_header = "\n".join(
             [
-                f"Number of data bits (k): {args.k}",
+                f"Number of data bits (k): {k}",
                 f"Number of parity bits (r): {r}",
                 f"Number of codeword bits (n): {n}",
             ]
