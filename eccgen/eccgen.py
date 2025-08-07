@@ -20,53 +20,39 @@ from eccgen.hsiao_secded import (
 )
 import numpy as np
 
-RTL_SUPPORTED_N_K = [
-    (8, 4),
-    (13, 8),
-    (16, 11),
-    (22, 16),
-    (32, 26),
-    (39, 32),
-    (64, 57),
-    (72, 64),
-    (128, 120),
-    (137, 128),
-    (256, 247),
-    (266, 256),
-    (512, 502),
-    (523, 512),
-    (1024, 1013),
-    (1036, 1024),
-]
-
 
 def main():
     parser = argparse.ArgumentParser(description="Error Correction Code Generator")
     parser.add_argument(
         "--scheme",
+        "-s",
         type=str,
         choices=["hsiao_secded"],
         required=True,
         help="The error correction code scheme to use (e.g., hsiao_secded)",
     )
     parser.add_argument(
-        "--k", type=int, required=True, help="The number of data bits (k)"
+        "-message-size",
+        "-k",
+        type=int,
+        required=True,
+        help="The number of bits in the message (k)",
     )
     parser.add_argument(
         "--print0",
         action="store_true",
-        help="Print 0s in the outputs (otherwise, leave blanks instead).",
+        help="Print 0s in the outputs (otherwise, leave blanks instead). Defaults to true.",
     )
     parser.add_argument(
         "--generator-matrix-output",
-        "--G",
+        "-G",
         type=argparse.FileType("w"),
         required=True,
         help="The output file to write the generator matrix to",
     )
     parser.add_argument(
         "--parity-check-matrix-output",
-        "--H",
+        "-H",
         type=argparse.FileType("w"),
         required=True,
         help="The output file to write the parity check matrix to",

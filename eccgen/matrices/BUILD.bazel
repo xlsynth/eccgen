@@ -71,7 +71,7 @@ GENERATED_HSIAO_H_K_FILES = ["gen_hsiao_H_k" + k + ".txt" for k in K]
                 "gen_hsiao_G_k" + k + ".txt",
                 "gen_hsiao_H_k" + k + ".txt",
             ],
-            cmd = "$(location //eccgen) --k " + k + " --scheme hsiao_secded --G=$(location gen_hsiao_G_k" + k + ".txt) --H=$(location gen_hsiao_H_k" + k + ".txt)",
+            cmd = "$(location //eccgen) -k " + k + " -s hsiao_secded -G=$(location gen_hsiao_G_k" + k + ".txt) -H=$(location gen_hsiao_H_k" + k + ".txt)",
             tools = ["//eccgen"],
         ),
     ]
