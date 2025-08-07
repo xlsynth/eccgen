@@ -39,6 +39,7 @@ RTL_SUPPORTED_N_K = [
     (1036, 1024),
 ]
 
+
 def main():
     parser = argparse.ArgumentParser(description="Error Correction Code Generator")
     parser.add_argument(
@@ -48,7 +49,9 @@ def main():
         required=True,
         help="The error correction code scheme to use (e.g., hsiao_secded)",
     )
-    parser.add_argument("--k", type=int, required=True, help="The number of data bits (k)")
+    parser.add_argument(
+        "--k", type=int, required=True, help="The number of data bits (k)"
+    )
     parser.add_argument(
         "--print0",
         action="store_true",
@@ -99,12 +102,8 @@ def main():
             H, separator=", ", threshold=np.inf, max_line_width=np.inf
         ).replace("0", " " if args.print0 else "0")
 
-        args.generator_matrix_output.write(
-            file_header + "\nG =\n" + G_str + "\n"
-        )
-        args.parity_check_matrix_output.write(
-            file_header + "\nH =\n" + H_str + "\n"
-        )
+        args.generator_matrix_output.write(file_header + "\nG =\n" + G_str + "\n")
+        args.parity_check_matrix_output.write(file_header + "\nH =\n" + H_str + "\n")
 
 
 if __name__ == "__main__":
