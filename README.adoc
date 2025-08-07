@@ -8,6 +8,7 @@
 
 image:https://github.com/xlsynth/eccgen/actions/workflows/ci.yml/badge.svg?branch=main["CI", link="https://github.com/xlsynth/eccgen/actions/workflows/ci.yml"]
 
+image:eccgen.png[ECCGen, width=300px]
 
 A Python tool that solves for a valid {ecc}[ECC^] construction given some input parameters and writes the generator (`G`) and parity-check (`H`) matrices to plain text output files.
 You can use the generator matrix to implement an encoder and the parity-check matrix to implement the complementary decoder.
