@@ -18,6 +18,7 @@ import os
 import re
 from typing import Tuple
 
+
 def _parse_matrix_file(path: str, symbol: str) -> Tuple[int, int, int, np.ndarray]:
     """
     Parse a file with headers:
@@ -44,7 +45,7 @@ def _parse_matrix_file(path: str, symbol: str) -> Tuple[int, int, int, np.ndarra
     if start == -1 or end == -1 or end < start:
         raise ValueError(f"Matrix bracket block not found in {path}")
 
-    mat = ast.literal_eval(text[start:end + 1])
+    mat = ast.literal_eval(text[start : end + 1])
     arr = np.array(mat, dtype=np.uint8)
 
     # Basic checks.
@@ -58,12 +59,14 @@ def _parse_matrix_file(path: str, symbol: str) -> Tuple[int, int, int, np.ndarra
         )
     return k, r, n, arr
 
+
 def parse_g_file(path: str) -> Tuple[int, int, int, np.ndarray]:
     """Parse the G matrix from a file.
 
     Returns (k, r, n, matrix).
     """
     return _parse_matrix_file(path, "G")
+
 
 def parse_h_file(path: str) -> Tuple[int, int, int, np.ndarray]:
     """Parse the H matrix from a file.
@@ -72,7 +75,10 @@ def parse_h_file(path: str) -> Tuple[int, int, int, np.ndarray]:
     """
     return _parse_matrix_file(path, "H")
 
-def parse_g_and_h_files(matrix_dir: str, k_list: list[int]) -> dict[int, tuple[int, int, np.ndarray, np.ndarray]]:
+
+def parse_g_and_h_files(
+    matrix_dir: str, k_list: list[int]
+) -> dict[int, tuple[int, int, np.ndarray, np.ndarray]]:
     """Parse the G and H matrices from files in the given directory.
     For each G, H pair, checks that the dimensions match, but not that
     the matrices are correctly constructed.
@@ -103,11 +109,17 @@ def parse_g_and_h_files(matrix_dir: str, k_list: list[int]) -> dict[int, tuple[i
         k_g, r_g, n_g, G = parse_g_file(g_path)
         k_h, r_h, n_h, H = parse_h_file(h_path)
         if k_g != k_h:
-            raise ValueError(f"G and H matrices have different k: {g_path} and {h_path}")
+            raise ValueError(
+                f"G and H matrices have different k: {g_path} and {h_path}"
+            )
         if r_g != r_h:
-            raise ValueError(f"G and H matrices have different r: {g_path} and {h_path}")
+            raise ValueError(
+                f"G and H matrices have different r: {g_path} and {h_path}"
+            )
         if n_g != n_h:
-            raise ValueError(f"G and H matrices have different n: {g_path} and {h_path}")
+            raise ValueError(
+                f"G and H matrices have different n: {g_path} and {h_path}"
+            )
         k = k_g
         r = r_g
         n = n_g

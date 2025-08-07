@@ -67,6 +67,7 @@ H =
  [0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1]]
 """
 
+
 def test_parse_g_from_string():
     m = mock_open(read_data=G_TEXT)
     with patch("builtins.open", m):
@@ -76,6 +77,7 @@ def test_parse_g_from_string():
     assert G.dtype == np.uint8
     assert G.shape == (32, 39)
     assert G.min() == 0 and G.max() == 1
+
 
 def test_parse_h_from_string():
     m = mock_open(read_data=H_TEXT)

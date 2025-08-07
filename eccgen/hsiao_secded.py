@@ -315,8 +315,6 @@ def decode_message(
     return (c[:k], False, True)
 
 
-
-
 def check_construction(
     G: np.ndarray,
     H: np.ndarray,
