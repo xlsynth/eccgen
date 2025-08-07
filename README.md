@@ -1,2 +1,5 @@
 # eccgen
-ECC construction solver and SystemVerilog RTL/DSLX code generator
+
+[![CI](https://github.com/xlsynth/eccgen/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/xlsynth/eccgen/actions/workflows/ci.yml)
+
+Error correcting code solver
