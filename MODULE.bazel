@@ -1,4 +1,4 @@
-# Copyright 2025 The ECCGen Authors
+# Copyright 2025 The XLSynth Organization
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ This module defines the Bazel Module (bzlmod) configuration for the ECCGen proje
 
 module(
     name = "eccgen",
-    version = "0.1.0",
+    version = "0.0.1",
 )
 
 bazel_dep(name = "rules_python", version = "1.5.1")
