@@ -1,4 +1,3 @@
-# Copyright 2024-2025 The XLSynth Organization
 # SPDX-License-Identifier: Apache-2.0
 
 import unittest
