@@ -1,11 +1,14 @@
-# SPDX-License-Identifier: Apache-2.0
-
-load("@python_versions//3.12:defs.bzl", compile_pip_requirements_3_12 = "compile_pip_requirements")
+load("@rules_python//python/uv:lock.bzl", "lock")
 
 package(default_visibility = ["//visibility:public"])
 
-compile_pip_requirements_3_12(
+lock(
     name = "requirements_3_12",
-    src = "requirements_3_12.in",
-    requirements_txt = "requirements_lock_3_12.txt",
+    srcs = ["pyproject.toml"],
+    out = "requirements_lock_3_12.txt",
+    args = [
+        "--group",
+        "dev",
+    ],
+    python_version = "3.12",
 )
