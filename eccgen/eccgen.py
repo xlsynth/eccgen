@@ -20,7 +20,7 @@ def main():
         help="The error correction code scheme to use (e.g., hsiao_secded)",
     )
     parser.add_argument(
-        "-message-size",
+        "--message-size",
         "-k",
         type=int,
         required=True,
