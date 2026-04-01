@@ -1,0 +1,149 @@
+name: PyPI Release
+
+on:
+  # Releases are always started manually.
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Where to publish this release"
+        required: true
+        default: testpypi
+        type: choice
+        options:
+          - testpypi
+          - pypi
+
+jobs:
+  verify-ci:
+    # Refuse to run unless the manual dispatch targets the main branch.
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+    steps:
+      - uses: actions/github-script@v8
+        with:
+          script: |
+            // Ensure the exact commit being released has already passed ci.yml.
+            const workflowRuns = await github.rest.actions.listWorkflowRuns({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: "ci.yml",
+              head_sha: context.sha,
+              per_page: 10,
+            });
+
+            const run = workflowRuns.data.workflow_runs.find(
+              (run) => run.head_sha === context.sha
+            );
+
+            if (!run) {
+              core.setFailed(`No ci.yml run found for ${context.sha}`);
+              return;
+            }
+
+            if (run.status !== "completed" || run.conclusion !== "success") {
+              core.setFailed(
+                `ci.yml for ${context.sha} is ${run.status}/${run.conclusion}`
+              );
+            }
+
+  verify-version:
+    # Refuse to release unless Python, Bazel, and git tag versions all agree.
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Verify release versions match
+        run: |
+          python - <<'PY'
+          import pathlib
+          import re
+          import subprocess
+          import tomllib
+
+          root = pathlib.Path(".")
+
+          pyproject = tomllib.loads((root / "pyproject.toml").read_text())
+          pyproject_version = pyproject["project"]["version"]
+
+          module_text = (root / "MODULE.bazel").read_text()
+          module_match = re.search(r'version\s*=\s*"([^"]+)"', module_text)
+          if not module_match:
+              raise SystemExit("Could not find module version in MODULE.bazel")
+          module_version = module_match.group(1)
+
+          expected_tag = f"v{pyproject_version}"
+          tags_at_head = subprocess.check_output(
+              ["git", "tag", "--points-at", "HEAD"],
+              text=True,
+          ).splitlines()
+
+          if pyproject_version != module_version:
+              raise SystemExit(
+                  "Version mismatch: "
+                  f"pyproject.toml has {pyproject_version}, "
+                  f"MODULE.bazel has {module_version}"
+              )
+
+          if expected_tag not in tags_at_head:
+              raise SystemExit(
+                  "Release tag mismatch: "
+                  f"expected tag {expected_tag} on HEAD, "
+                  f"found tags {tags_at_head or '[]'}"
+              )
+
+          print(
+              "Verified matching release version "
+              f"{pyproject_version} in pyproject.toml, MODULE.bazel, and git tag "
+              f"{expected_tag}"
+          )
+          PY
+
+  build:
+    # Only build artifacts for commits on main that have passed CI and for which all the versions match.
+    needs:
+      - verify-ci
+      - verify-version
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - uses: astral-sh/setup-uv@v6
+      - name: Build distributions
+        run: uv build
+      - name: Upload distributions
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/*
+
+  publish:
+    # Publishing is gated by the selected protected environment and trusted publishing.
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ inputs.target }}
+      url: ${{ inputs.target == 'pypi' && 'https://pypi.org/p/eccgen' || 'https://test.pypi.org/project/eccgen/' }}
+    permissions:
+      id-token: write
+    steps:
+      - name: Download distributions
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+      - uses: astral-sh/setup-uv@v6
+      - name: Publish to package index
+        run: uv publish --index "${{ inputs.target }}"
