@@ -139,6 +139,7 @@ jobs:
     permissions:
       id-token: write
     steps:
+      - uses: actions/checkout@v6
       - name: Download distributions
         uses: actions/download-artifact@v4
         with:
