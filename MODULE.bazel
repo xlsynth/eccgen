@@ -16,9 +16,25 @@ python = use_extension("@rules_python//python/extensions:python.bzl", "python")
 python.toolchain(python_version = "3.12")
 use_repo(python, "python_3_12", "python_versions", "pythons_hub")
 
+uv = use_extension(
+    "@rules_python//python/uv:uv.bzl",
+    "uv",
+    dev_dependency = True,
+)
+uv.configure(version = "0.11.2")
+
+# HACK: these platforms are not supported by the rules_python uv extension;
+# configuring them manually actually causes the extension to NOT try to download
+# the relevant platform-specific toolchains. :eyebrow-raised:
+uv.configure(platform = "powerpc64-unknown-linux-gnu")
+uv.configure(platform = "powerpc64le-unknown-linux-gnu")
+uv.configure(platform = "riscv64-unknown-linux-gnu")
+uv.configure(platform = "s390x-unknown-linux-gnu")
+
 pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
 
-# The requirements_lock_3_12.txt file is auto-generated from requirements_3_12.in and statically checked in.
+# The requirements_lock_3_12.txt file is generated from pyproject.toml via
+# rules_python's experimental uv lock rule and statically checked in.
 # To regenerate it, run `bazel run //:requirements_3_12.update`.
 pip.parse(
     # Hub names must be unique across Bazel modules. To avoid problems when integrating

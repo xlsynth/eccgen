@@ -2,4 +2,7 @@ bazel-*
 MODULE.bazel.lock
 .vscode
 .spr.yml
+.venv
+.uv-cache
 __pycache__
+eccgen.egg-info/

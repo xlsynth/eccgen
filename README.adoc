@@ -13,38 +13,44 @@ image:eccgen.png[ECCGen, width=300px]
 A Python tool that solves for a valid {ecc}[ECC^] construction given some input parameters and writes the generator (`G`) and parity-check (`H`) matrices to plain text output files.
 You can use the generator matrix to implement an encoder and the parity-check matrix to implement the complementary decoder.
 
-== Usage with Python
+== Usage (uv/python)
 
 Setup:
 
 [source,shell]
 ----
-python3 -m venv ~/.virtualenvs/eccgen
-source ~/.virtualenvs/eccgen/bin/activate
-pip install -r requirements_3_12.in
+uv sync
 ----
 
 Verbose args:
 
 [source,shell]
 ----
-python3 -m eccgen.eccgen --help
-python3 -m eccgen.eccgen --scheme hsiao_secded --message-size 42 --generator-matrix-output $(pwd)/G.txt --parity-check-matrix-output $(pwd)/H.txt
+uv run python -m eccgen.eccgen --help
+uv run python -m eccgen.eccgen --scheme hsiao_secded --message-size 42 --generator-matrix-output $(pwd)/G.txt --parity-check-matrix-output $(pwd)/H.txt
 ----
 
 Or with concise args:
 
 [source,shell]
 ----
-python3 -m eccgen.eccgen -h
-python3 -m eccgen.eccgen -s hsiao_secded -k 42 -G $(pwd)/G.txt -H $(pwd)/H.txt
+uv run python -m eccgen.eccgen -h
+uv run python -m eccgen.eccgen -s hsiao_secded -k 42 -G $(pwd)/G.txt -H $(pwd)/H.txt
+----
+
+Run the Python tests:
+
+[source,shell]
+----
+uv run python -m unittest eccgen.hsiao_secded_test eccgen.matrix_parser_test
 ----
 
 You can find pre-generated G-H pairs for powers-of-2 message and codeword sizes in `eccgen/matrices`.
 
-== Usage with Bazel
+== Usage (Bazel)
 
 You can use Bazel to run and test the tool, as well as depend on it from your own Bazel-based projects with Bzlmod.
+Bazel tests are currently the source of truth for the repo.
 
 Run the tool:
 
@@ -93,6 +99,7 @@ We welcome your contributions!
 Please feel free to open an issue or submit a pull request.
 
 We use GitHub Actions for CI: we run the pre-commit checks and all the Bazel tests.
+For local Python dependency management we use `uv`; if you change Python dependencies, regenerate the Bazel lockfile with `bazel run //:requirements_3_12.update`.
 
 == License
 
