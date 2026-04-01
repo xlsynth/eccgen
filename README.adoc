@@ -50,6 +50,7 @@ You can find pre-generated G-H pairs for powers-of-2 message and codeword sizes 
 == Usage (Bazel)
 
 You can use Bazel to run and test the tool, as well as depend on it from your own Bazel-based projects with Bzlmod.
+Bazel tests are currently the source of truth for the repo.
 
 Run the tool:
 
