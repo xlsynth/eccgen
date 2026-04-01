@@ -25,10 +25,17 @@ Repository = "https://github.com/xlsynth/eccgen"
 dev = [
     "parameterized>=0.9.0",
     "pre-commit>=4.5.1",
+    "ruff>=0.13.0",
 ]
 
 [tool.uv]
 default-groups = ["dev"]
+
+[tool.ruff]
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]
 
 [tool.setuptools.packages.find]
 include = ["eccgen*"]

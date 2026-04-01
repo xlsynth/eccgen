@@ -8,11 +8,10 @@ References:
 [2] https://arxiv.org/pdf/0803.1217
 """
 
-from ast import Expression
-import numpy as np
 import math
-import textwrap
 from itertools import combinations
+
+import numpy as np
 
 # Ideally this would be infinity, but the optimal algorithm is prohibitively slow for large k.
 # We set this to 256 because that takes a couple minutes and going to 512 would probably take hours.
@@ -169,7 +168,6 @@ def get_Hm_greedy_suboptimal(k: int, r: int) -> np.ndarray:
                 break
         return ret
 
-    n = k + r
     # Fill H_m with column vectors that satisfy conditions (1), (2), and (4).
     start_col = 0
     weight = 3  # Only use odd weights, and skip weight 1 since it's only used for H_p

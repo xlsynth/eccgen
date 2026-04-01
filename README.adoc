@@ -45,6 +45,15 @@ Run the Python tests:
 uv run python -m unittest eccgen.hsiao_secded_test eccgen.matrix_parser_test
 ----
 
+Run lint and formatting:
+
+[source,shell]
+----
+uv run ruff check . --fix
+uv run ruff format .
+uv run pre-commit run --all-files
+----
+
 You can find pre-generated G-H pairs for powers-of-2 message and codeword sizes in `eccgen/matrices`.
 
 == Usage (Bazel)
