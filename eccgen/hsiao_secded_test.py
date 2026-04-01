@@ -80,7 +80,6 @@ def _check_error_random(m, k, n, H, G, num_errors: int):
 
 
 class TestHsiaoSecdedCode(unittest.TestCase):
-
     @parameterized.expand(
         [
             (4, 4),

@@ -21,12 +21,13 @@ repos:
       - id: debug-statements
       - id: mixed-line-ending
 
-  # Format Python files
-  - repo: https://github.com/psf/black-pre-commit-mirror
-    rev: 25.1.0
+  # Lint and format Python files
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.13.2
     hooks:
-      - id: black
-        language_version: python3.12
+      - id: ruff-check
+        args: [--fix]
+      - id: ruff-format
 
   # Format Bazel files
   - repo: https://github.com/warchant/pre-commit-buildifier

@@ -1,8 +1,10 @@
 # SPDX-License-Identifier: Apache-2.0
 
-import numpy as np
 from unittest.mock import mock_open, patch
-from eccgen.matrix_parser import parse_g_file, parse_h_file, parse_g_and_h_files
+
+import numpy as np
+
+from eccgen.matrix_parser import parse_g_file, parse_h_file
 
 G_TEXT = """Number of data bits (k): 32
 Number of parity bits (r): 7
