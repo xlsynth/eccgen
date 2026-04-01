@@ -51,9 +51,6 @@ select = ["E4", "E7", "E9", "F"]
 [tool.hatch.build.targets.wheel]
 packages = ["eccgen"]
 
-[tool.hatch.build.targets.wheel.force-include]
-"eccgen/matrices" = "eccgen/matrices"
-
 # Exclude Bazel files from the sdist.
 [tool.hatch.build.targets.sdist]
 include = [
