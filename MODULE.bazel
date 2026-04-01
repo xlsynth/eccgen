@@ -22,6 +22,10 @@ uv = use_extension(
     dev_dependency = True,
 )
 uv.configure(version = "0.11.2")
+
+# HACK: these platforms are not supported by the rules_python uv extension;
+# configuring them manually actually causes the extension to NOT try to download
+# the relevant platform-specific toolchains. :eyebrow-raised:
 uv.configure(platform = "powerpc64-unknown-linux-gnu")
 uv.configure(platform = "powerpc64le-unknown-linux-gnu")
 uv.configure(platform = "riscv64-unknown-linux-gnu")
