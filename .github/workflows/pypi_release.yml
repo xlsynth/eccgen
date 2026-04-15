@@ -21,7 +21,7 @@ jobs:
     permissions:
       actions: read
     steps:
-      - uses: actions/github-script@v8
+      - uses: actions/github-script@v9
         with:
           script: |
             // Ensure the exact commit being released has already passed ci.yml.
