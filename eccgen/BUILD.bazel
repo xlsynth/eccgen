@@ -13,6 +13,7 @@ py_library(
 
 py_test(
     name = "hsiao_secded_test",
+    timeout = "long",
     srcs = ["hsiao_secded_test.py"],
     deps = [
         ":hsiao_secded",
