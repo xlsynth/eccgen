@@ -11,10 +11,36 @@ module(
 
 bazel_dep(name = "rules_python", version = "1.9.0")
 bazel_dep(name = "bazel_skylib", version = "1.9.0")
+bazel_dep(name = "rules_shell", version = "0.6.1")
+
+# Keep direct Bzlmod dependencies pinned to the release source commits as well
+# as their module versions.
+git_override(
+    module_name = "rules_python",
+    commit = "bac549496f67b9f0109d914319c09acf653ccdea",
+    remote = "https://github.com/bazel-contrib/rules_python",
+)
+
+git_override(
+    module_name = "bazel_skylib",
+    commit = "53f6d0dfe32d2f71e14d27b9ccf00688c156da22",
+    remote = "https://github.com/bazelbuild/bazel-skylib",
+)
+
+git_override(
+    module_name = "rules_shell",
+    commit = "e071f45e209f3e154210faed3d0e60c29aef3b4a",
+    remote = "https://github.com/bazelbuild/rules_shell",
+)
 
 python = use_extension("@rules_python//python/extensions:python.bzl", "python")
-python.toolchain(python_version = "3.12")
-use_repo(python, "python_3_12", "python_versions", "pythons_hub")
+python.toolchain(python_version = "3.12.12")
+use_repo(
+    python,
+    "python_versions",
+    "pythons_hub",
+    python_3_12 = "python_3_12_12",
+)
 
 uv = use_extension(
     "@rules_python//python/uv:uv.bzl",
@@ -41,7 +67,7 @@ pip.parse(
     # this module with others, namespace the hub name using the git repo name.
     hub_name = "eccgen-pypi",
     # We need to use the same version here as in the `python.toolchain` call.
-    python_version = "3.12",
+    python_version = "3.12.12",
     requirements_lock = "//:requirements_lock_3_12.txt",
 )
 use_repo(pip, "eccgen-pypi")
