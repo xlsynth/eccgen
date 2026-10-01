@@ -17,7 +17,7 @@ bazel_dep(name = "rules_shell", version = "0.6.1")
 # as their module versions.
 git_override(
     module_name = "rules_python",
-    commit = "bac549496f67b9f0109d914319c09acf653ccdea",
+    commit = "281e98aa3a103356ed8fa3aaf36f3bf646f28fd9",
     remote = "https://github.com/bazel-contrib/rules_python",
 )
 
