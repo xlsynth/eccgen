@@ -10,7 +10,7 @@ module(
 )
 
 bazel_dep(name = "rules_python", version = "1.9.0")
-bazel_dep(name = "bazel_skylib", version = "1.9.0")
+bazel_dep(name = "bazel_skylib", version = "1.9.2")
 bazel_dep(name = "rules_shell", version = "0.6.1")
 
 # Keep direct Bzlmod dependencies pinned to the release source commits as well
@@ -23,7 +23,7 @@ git_override(
 
 git_override(
     module_name = "bazel_skylib",
-    commit = "53f6d0dfe32d2f71e14d27b9ccf00688c156da22",
+    commit = "3de43ed45e1c7923d53c4db56ca3de3e46601580",
     remote = "https://github.com/bazelbuild/bazel-skylib",
 )
 
